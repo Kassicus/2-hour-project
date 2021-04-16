@@ -1,5 +1,6 @@
 import pygame
 import data
+import player
 
 pygame.init()
 
@@ -17,6 +18,8 @@ class Game():
 
         self.events = pygame.event.get()
 
+        self.player = player.Player()
+
     def start(self):
         while self.running:
             self.events = pygame.event.get()
@@ -25,14 +28,28 @@ class Game():
                 if event.type == pygame.QUIT:
                     self.running = False
 
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_a:
+                        self.player.move('left')
+                    elif event.key == pygame.K_d:
+                        self.player.move('right')
+
+                if event.type == pygame.KEYUP:
+                    if event.key == pygame.K_a or event.key == pygame.K_d:
+                        self.player.move('stop')
+
             self.draw()
 
             self.update()
 
     def draw(self):
-        self.screen.fill(data.colors['black'])
+        self.screen.fill(data.colors['white'])
+
+        self.player.draw(self.screen)
 
     def update(self):
+        self.player.update()
+
         pygame.display.update()
         self.clock.tick(30)
 
