@@ -3,6 +3,8 @@ import enemy
 
 fireballs = pygame.sprite.Group()
 
+kills = 0
+
 LEFT = pygame.image.load('assets/projectiles/fireball_left.png')
 RIGHT = pygame.image.load('assets/projectiles/fireball_right.png')
 
@@ -44,7 +46,10 @@ class Fireball(pygame.sprite.Sprite):
         surface.blit(self.image, (self.x, self.y))
 
     def check_collide(self):
+        global kills
+
         for e in enemy.enemies:
-            if self.x > e.x and self.x + 32 < e.x + 64:
+            if e.x < self.x < e.x + 64:
                 self.kill()
                 e.kill()
+                kills += 1

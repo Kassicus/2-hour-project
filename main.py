@@ -30,7 +30,18 @@ class Game():
         self.player_mana = ui.Bar(5, 5, data.colors['purple'])
         self.player_health = ui.Bar(5, 45, data.colors['red'])
 
-        self.spawn_rate = 20
+        self.spawn_rate = 15
+
+        self.score = fireball.kills
+
+        self.score_font = pygame.font.Font('assets/fonts/Press_Start_2P/PressStart2P-Regular.ttf', 32)
+        self.score_text = pygame.font.Font.render(self.score_font, "Score: ", False, data.colors['black'])
+        self.score_value = pygame.font.Font.render(self.score_font, str(self.score), False, data.colors['black'])
+
+        self.game_over_font = pygame.font.Font('assets/fonts/Press_Start_2P/PressStart2P-Regular.ttf', 64)
+        self.game_over_text = pygame.font.Font.render(self.game_over_font, "Game Over!", False, data.colors['red'])
+
+        self.gameover = False
 
     def start(self):
         while self.running:
@@ -58,31 +69,44 @@ class Game():
             self.update()
 
     def draw(self):
-        self.screen.fill(data.colors['white'])
-        self.screen.blit(sky, (0, 0))
-        self.screen.blit(ground, (0, 500))
+        if not self.gameover:
+            self.screen.fill(data.colors['white'])
+            self.screen.blit(sky, (0, 0))
+            self.screen.blit(ground, (0, 500))
 
-        self.player_mana.draw(self.screen)
-        self.player_health.draw(self.screen)
+            self.screen.blit(self.score_text, (480, 5))
+            self.screen.blit(self.score_value, (680, 5))
 
-        enemy.enemies.draw(self.screen)
+            self.player_mana.draw(self.screen)
+            self.player_health.draw(self.screen)
 
-        self.player.draw(self.screen)
+            enemy.enemies.draw(self.screen)
 
-        fireball.fireballs.draw(self.screen)
+            self.player.draw(self.screen)
+
+            fireball.fireballs.draw(self.screen)
 
     def update(self):
-        self.player.update()
+        if not self.gameover:
+            self.player.update()
 
-        fireball.fireballs.update()
-        self.player_mana.status = int(self.player.mana * 3)
-        self.player_health.status = int(self.player.health * 3)
+            fireball.fireballs.update()
+            self.player_mana.status = int(self.player.mana * 3)
+            self.player_health.status = int(self.player.health * 3)
 
-        enemy.enemies.update()
+            enemy.enemies.update()
 
-        self.spawn_enemy()
+            self.score = fireball.kills
+            self.score_value = pygame.font.Font.render(self.score_font, str(self.score), False, data.colors['black'])
+
+            self.spawn_enemy()
+
+            if self.player.health <= 0:
+                self.gameover = True
+                game_over()
 
         pygame.display.update()
+        #print(self.clock)
         self.clock.tick(30)
 
     def spawn_enemy(self):
@@ -93,6 +117,8 @@ class Game():
             e = enemy.Enemy(spawn_dir)
             enemy.enemies.add(e)
 
+def game_over():
+    game.screen.blit(game.game_over_text, (200, 200))
 
 
 game = Game(1000, 600, "Kill the Pigs")

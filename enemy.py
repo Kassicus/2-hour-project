@@ -30,3 +30,9 @@ class Enemy(pygame.sprite.Sprite):
         self.x += self.velocity
 
         self.rect = (self.x, self.y)
+
+        if self.x > 1100:
+            self.kill()
+
+        if self.x < -100:
+            self.kill()

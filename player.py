@@ -1,6 +1,7 @@
 import pygame
 import fireball
 import random
+import enemy
 
 LEFT = pygame.image.load('assets/player/player_left.png')
 LEFT_BOB = pygame.image.load('assets/player/player_left_bob.png')
@@ -36,6 +37,8 @@ class Player(pygame.sprite.Sprite):
         self.bob()
 
         self.restore_mana()
+
+        self.check_collide()
 
     def draw(self, surface):
         surface.blit(self.image, (self.x, self.y))
@@ -78,3 +81,9 @@ class Player(pygame.sprite.Sprite):
             restore = random.randint(1, 3)
             if restore == 1:
                 self.mana += 1
+
+    def check_collide(self):
+        for e in enemy.enemies:
+            if e.x < self.x < e.x + 64:
+                e.kill()
+                self.health -= 10
