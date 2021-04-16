@@ -2,8 +2,12 @@ import pygame
 import data
 import player
 import fireball
+import ui
 
 pygame.init()
+
+ground = pygame.image.load('assets/terrain/ground.png')
+sky = pygame.image.load('assets/terrain/skybox.png')
 
 class Game():
     def __init__(self, width, height, title):
@@ -20,6 +24,9 @@ class Game():
         self.events = pygame.event.get()
 
         self.player = player.Player()
+
+        self.player_mana = ui.Bar(5, 5, data.colors['purple'])
+        self.player_health = ui.Bar(5, 45, data.colors['red'])
 
     def start(self):
         while self.running:
@@ -48,6 +55,11 @@ class Game():
 
     def draw(self):
         self.screen.fill(data.colors['white'])
+        self.screen.blit(sky, (0, 0))
+        self.screen.blit(ground, (0, 500))
+
+        self.player_mana.draw(self.screen)
+        self.player_health.draw(self.screen)
 
         self.player.draw(self.screen)
 
@@ -57,6 +69,8 @@ class Game():
         self.player.update()
 
         fireball.fireballs.update()
+        self.player_mana.status = int(self.player.mana * 3)
+        self.player_health.status = int(self.player.health * 3)
 
         pygame.display.update()
         self.clock.tick(30)

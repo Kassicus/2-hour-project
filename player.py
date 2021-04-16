@@ -1,5 +1,6 @@
 import pygame
 import fireball
+import random
 
 LEFT = pygame.image.load('assets/player/player_left.png')
 LEFT_BOB = pygame.image.load('assets/player/player_left_bob.png')
@@ -11,10 +12,13 @@ class Player(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
 
         self.x = 500
-        self.y = 500
+        self.y = 436
 
         self.velocity = 0
         self.speed = 8
+
+        self.mana = 100
+        self.health = 100
 
         self.bob_timer = 10
 
@@ -30,6 +34,8 @@ class Player(pygame.sprite.Sprite):
         self.rect = (self.x, self.y)
 
         self.bob()
+
+        self.restore_mana()
 
     def draw(self, surface):
         surface.blit(self.image, (self.x, self.y))
@@ -47,8 +53,10 @@ class Player(pygame.sprite.Sprite):
             self.velocity = 0
 
     def shoot(self):
-        f = fireball.Fireball(self.x, self.y, self.dir)
-        fireball.fireballs.add(f)
+        if self.mana > 5:
+            f = fireball.Fireball(self.x, self.y, self.dir)
+            fireball.fireballs.add(f)
+            self.mana -= 5
 
     def bob(self):
         self.bob_timer -= 1
@@ -64,3 +72,9 @@ class Player(pygame.sprite.Sprite):
                 self.image = RIGHT
 
             self.bob_timer = 10
+
+    def restore_mana(self):
+        if self.mana < 100:
+            restore = random.randint(1, 3)
+            if restore == 1:
+                self.mana += 1
