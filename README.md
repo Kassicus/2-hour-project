@@ -1,4 +1,4 @@
-# 2-hour-project
+# 2 Hour Project
 
 ## What I was going for
 I sat down at 6:30, started a 2 hour timer and started brainstorming something that felt like it could be accomplished in 2 hours.
@@ -16,3 +16,38 @@ I also wasted the last 15 minutes trying to get pyinstaller to package the game 
 
 ## The Takeaway
 This was a lot of fun, if I knew more about pixel art, I would probably jump into a game jam here or there, having evn 24 hours sounds like such a luxury. I am not a game developer, most of the work that I do is simple tools or website related. **If you are reading this far**, please scrutinize my code. I would love input on how I can optimize what I wrote, as im pretty sure its mostly garbage and poorly written.
+
+
+# How To Install
+
+## Python + Pygame
+You will need python 3.8+ and pygame in order to run this (as I never got around to packaging it)
+
+You can download python from https://www.python.org/downloads/ 
+After you install that, open a command prompt (Windows) or terminal (MacOS, Linux)
+Run these commands (you may need to upgrade or install pip, if so an error will be thrown and it will show you the command you need to run to fix it)
+
+```
+pip install pygame
+```
+
+## Cloning and Running
+Once you have python and pygame installed, either:
+ -Download the project and extract it.
+ -Clone the directory. 
+
+(I recommend creating a python folder in your Documents folder and cloning/extracting into there)
+
+Then all you have to do is run the game, open a command prompt or terminal and type
+
+```
+python3 main.py
+```
+
+The game should pop up and you are ready to play!
+
+
+# Playing the Game
+The game is very simple to play, use 'A' and 'D' to move left and right, and shoot with 'SPACE'. If you get touched by a slime, you lose some health.
+
+~Enjoy! (or don't, the game isn't very enjoyable :^))
