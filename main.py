@@ -1,6 +1,7 @@
 import pygame
 import data
 import player
+import fireball
 
 pygame.init()
 
@@ -34,6 +35,9 @@ class Game():
                     elif event.key == pygame.K_d:
                         self.player.move('right')
 
+                    if event.key == pygame.K_SPACE:
+                        self.player.shoot()
+
                 if event.type == pygame.KEYUP:
                     if event.key == pygame.K_a or event.key == pygame.K_d:
                         self.player.move('stop')
@@ -47,8 +51,12 @@ class Game():
 
         self.player.draw(self.screen)
 
+        fireball.fireballs.draw(self.screen)
+
     def update(self):
         self.player.update()
+
+        fireball.fireballs.update()
 
         pygame.display.update()
         self.clock.tick(30)
