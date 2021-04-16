@@ -1,4 +1,5 @@
 import pygame
+import enemy
 
 fireballs = pygame.sprite.Group()
 
@@ -37,5 +38,13 @@ class Fireball(pygame.sprite.Sprite):
         if self.x > 1100:
             self.kill()
 
+        self.check_collide()
+
     def draw(self, surface):
         surface.blit(self.image, (self.x, self.y))
+
+    def check_collide(self):
+        for e in enemy.enemies:
+            if self.x > e.x and self.x + 32 < e.x + 64:
+                self.kill()
+                e.kill()

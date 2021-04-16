@@ -3,6 +3,8 @@ import data
 import player
 import fireball
 import ui
+import enemy
+import random
 
 pygame.init()
 
@@ -27,6 +29,8 @@ class Game():
 
         self.player_mana = ui.Bar(5, 5, data.colors['purple'])
         self.player_health = ui.Bar(5, 45, data.colors['red'])
+
+        self.spawn_rate = 20
 
     def start(self):
         while self.running:
@@ -61,6 +65,8 @@ class Game():
         self.player_mana.draw(self.screen)
         self.player_health.draw(self.screen)
 
+        enemy.enemies.draw(self.screen)
+
         self.player.draw(self.screen)
 
         fireball.fireballs.draw(self.screen)
@@ -72,8 +78,22 @@ class Game():
         self.player_mana.status = int(self.player.mana * 3)
         self.player_health.status = int(self.player.health * 3)
 
+        enemy.enemies.update()
+
+        self.spawn_enemy()
+
         pygame.display.update()
         self.clock.tick(30)
+
+    def spawn_enemy(self):
+        spawn_chance = random.randint(1, self.spawn_rate)
+        if spawn_chance == 1:
+            spawn_dir = random.choice(['left', 'right'])
+
+            e = enemy.Enemy(spawn_dir)
+            enemy.enemies.add(e)
+
+
 
 game = Game(1000, 600, "Kill the Pigs")
 game.start()
